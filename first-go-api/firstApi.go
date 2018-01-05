@@ -42,6 +42,17 @@ func CreatePersonEndpoint(writer http.ResponseWriter, request *http.Request) {
 	json.NewEncoder(writer).Encode(people)
 }
 
+func DeletePersonEndpoint(writer http.ResponseWriter, request *httpRequest) {
+	params := mux.Vars{request)
+	for index, item := range people {
+		if item.ID == params["id"] {
+			people = append(people[:index], people[index+1:]...)
+			break
+		}
+	}
+	json.NewEncoder(writer).Encode(people)
+}
+
 func main() {
 	people = append(people, Person{ID: "1", Firstname: "Alexes", Lastname: "Presswood", Address: &Address{City: "Kansas City", State: "MO"}})
 	people = append(people, Person{ID: "2", Firstname: "Test", Lastname: "User"})
