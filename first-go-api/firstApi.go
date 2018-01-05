@@ -54,6 +54,13 @@ func DeletePersonEndpoint(writer http.ResponseWriter, request *httpRequest) {
 }
 
 func main() {
+	router := mux.NewRouter()
 	people = append(people, Person{ID: "1", Firstname: "Alexes", Lastname: "Presswood", Address: &Address{City: "Kansas City", State: "MO"}})
 	people = append(people, Person{ID: "2", Firstname: "Test", Lastname: "User"})
+
+	router.HandleFunc("/people/{id}", GetPersonEndpoint).Methods("GET")
+	router.HandleFunc("people/{id}", CreatePersonEndpoint).Methods("POST")
+	router.HandleFunc("people/{id}", DeletePersonEndpoint).Methods("DELETE")
+	log.Fatal(http.ListenAndServe(":12345", router))
 }
+
