@@ -21,6 +21,10 @@ type Address struct {
 
 var people[]Person
 
+func GetPeopleEndpoint(writer http.ResponseWriter, request *http.Request) {
+	json.NewEncoder(writer).Encode(people)
+}
+
 func GetPersonEndpoint(writer http.ResponseWriter, request *http.Request) {
 	params := mux.Vars(request)
 	for _, item := range people {
@@ -58,6 +62,7 @@ func main() {
 	people = append(people, Person{ID: "1", Firstname: "Alexes", Lastname: "Presswood", Address: &Address{City: "Kansas City", State: "MO"}})
 	people = append(people, Person{ID: "2", Firstname: "Test", Lastname: "User"})
 
+	router.HandleFunc("/people", GetPeopleEndpoint).Methods("GET")
 	router.HandleFunc("/people/{id}", GetPersonEndpoint).Methods("GET")
 	router.HandleFunc("/people/{id}", CreatePersonEndpoint).Methods("POST")
 	router.HandleFunc("/people/{id}", DeletePersonEndpoint).Methods("DELETE")
